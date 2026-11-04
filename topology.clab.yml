@@ -1,0 +1,45 @@
+name: isp-lab
+topology:
+  nodes:
+    core:
+      kind: linux
+      image: quay.io/frrouting/frr:10.0.1
+      binds: [configs/core/frr.conf:/etc/frr/frr.conf, configs/core/daemons:/etc/frr/daemons]
+    pe1:
+      kind: linux
+      image: quay.io/frrouting/frr:10.0.1
+      binds: [configs/pe1/frr.conf:/etc/frr/frr.conf, configs/pe1/daemons:/etc/frr/daemons]
+    cust-b2b:
+      kind: linux
+      image: quay.io/frrouting/frr:10.0.1
+      binds: [configs/cust-b2b/frr.conf:/etc/frr/frr.conf, configs/cust-b2b/daemons:/etc/frr/daemons]
+    olt-sim:
+      kind: linux
+      image: isp-lab/client:latest
+      cap-add: [NET_ADMIN, NET_RAW]
+    radius:
+      kind: linux
+      image: freeradius/freeradius-server:latest
+    ont-pc:
+      kind: linux
+      image: isp-lab/client:latest
+      cap-add: [NET_ADMIN, NET_RAW]
+    stb-pc:
+      kind: linux
+      image: isp-lab/client:latest
+      cap-add: [NET_ADMIN, NET_RAW]
+    headend:
+      kind: linux
+      image: isp-lab/client:latest
+    upstream:
+      kind: linux
+      image: isp-lab/client:latest
+  links:
+    - endpoints: ["cust-b2b:eth1", "pe1:eth1"]
+    - endpoints: ["pe1:eth2", "core:eth1"]
+    - endpoints: ["core:eth2", "olt-sim:eth1"]
+    - endpoints: ["core:eth3", "upstream:eth1"]
+    - endpoints: ["olt-sim:eth2", "ont-pc:eth1"]
+    - endpoints: ["olt-sim:eth3", "stb-pc:eth1"]
+    - endpoints: ["olt-sim:eth4", "headend:eth1"]
+    - endpoints: ["olt-sim:eth5", "radius:eth1"]
