@@ -178,8 +178,3 @@ sudo containerlab destroy -t topology.clab.yml
 - Lab berjalan di atas container Docker, sehingga tidak melibatkan perangkat fisik OLT maupun ONT.
 - IGMP snooping disimulasikan dengan bridge L2 (`br0`) untuk menyederhanakan pengujian multicast.
 - Container RADIUS ikut di-deploy pada topologi, tetapi autentikasi PPPoE dialihkan ke `chap-secrets` lokal pada OLT karena image FreeRADIUS tidak stabil di lingkungan Docker lab ini. Integrasi RADIUS penuh menjadi pengembangan lanjutan.
-
-## Penulis
-
-**Ridho K. Satrio**
-GitHub: [@ridhoksatrio](https://github.com/ridhoksatrio)
